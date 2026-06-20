@@ -1,0 +1,20 @@
+import pandas as pd
+
+data = [
+    [22, 23, 28, 50, 155, 4.2, 3.1, 12.5, 5.0, 3.2, 0],
+    [25, 26, 30, 55, 158, 4.8, 3.5, 12.0, 5.5, 4.0, 0],
+    [28, 30, 35, 65, 160, 5.5, 6.2, 11.0, 7.2, 8.0, 1],
+    [30, 27, 30, 60, 158, 4.8, 5.0, 12.0, 6.0, 6.5, 0],
+    [32, 32, 40, 70, 162, 6.0, 7.5, 10.5, 8.0, 9.2, 1],
+    [35, 33, 42, 72, 165, 6.5, 8.0, 10.0, 9.0, 10.5, 1]
+]
+
+columns = [
+    "age","bmi","cycle_length","weight","height",
+    "fsh","lh","hb","prolactin","amh","risk"
+]
+
+df = pd.DataFrame(data, columns=columns)
+df.to_csv("ml/data/period_risk.csv", index=False)
+
+print("CSV created successfully ✔")
