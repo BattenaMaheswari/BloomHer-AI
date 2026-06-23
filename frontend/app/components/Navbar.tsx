@@ -14,7 +14,7 @@ export default function Navbar() {
     { name: "Water", path: "/water" },
     { name: "PCOS", path: "/pcos" },
     { name: "History", path: "/pcos-history" },
-    { name: "AI Chat", path: "/chat" },
+    { name: "AI Chat", path: "/ai-chat" },
     { name: "Analytics", path: "/analytics" },
   ];
 
