@@ -9,6 +9,7 @@ interface ChatMessage {
 }
 
 export default function AIChat() {
+
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
@@ -19,37 +20,65 @@ export default function AIChat() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
-  // Auto scroll
+  // Auto scroll to latest message
   useEffect(() => {
+
     chatEndRef.current?.scrollIntoView({
       behavior: "smooth",
     });
+
   }, [messages]);
 
 
-  // Load previous chats
+
+  // Load Chat History
   async function loadHistory() {
+
     try {
-      const res = await fetch(`${API_URL}/chat/`);
+
+      const res = await fetch(
+        `${API_URL}/chat/`
+      );
+
 
       if (!res.ok) {
-        throw new Error("Failed to load history");
+        throw new Error(
+          "Failed to load history"
+        );
       }
+
 
       const data = await res.json();
 
-      setMessages(data.history || []);
+      setMessages(
+        data.history || []
+      );
+
 
     } catch (error) {
-      console.error("History Error:", error);
-      setError("Unable to load chat history.");
+
+      console.error(
+        "History Error:",
+        error
+      );
+
+      setError(
+        "Unable to load chat history."
+      );
+
     }
+
   }
 
 
+
   useEffect(() => {
+
     loadHistory();
+
   }, []);
+
+
 
 
 
@@ -61,19 +90,22 @@ export default function AIChat() {
 
     const userMessage = message;
 
+
     setMessage("");
     setError("");
 
 
-    // Temporary user message
-    setMessages((prev) => [
+
+    // Show temporary message
+    setMessages((prev)=>[
       ...prev,
       {
         id: Date.now(),
-        message: userMessage,
-        response: "Thinking...",
-      },
+        message:userMessage,
+        response:"Thinking..."
+      }
     ]);
+
 
 
     try {
@@ -81,49 +113,67 @@ export default function AIChat() {
       setLoading(true);
 
 
+
       const res = await fetch(
         `${API_URL}/chat/`,
         {
-          method: "POST",
 
-          headers: {
-            "Content-Type": "application/json",
+          method:"POST",
+
+          headers:{
+            "Content-Type":"application/json",
           },
 
-          body: JSON.stringify({
-            message: userMessage,
-            pcos_risk: null,
-          }),
+
+          body:JSON.stringify({
+
+            message:userMessage,
+
+            pcos_risk:null
+
+          })
+
         }
       );
+
 
 
       const data = await res.json();
 
 
-      if (!res.ok) {
+
+      if(!res.ok){
+
         throw new Error(
-          data.detail || "Something went wrong"
+          data.detail ||
+          "Something went wrong"
         );
+
       }
 
 
-      // Reload actual database history
+
+      // Refresh database history
       await loadHistory();
 
 
-    } catch (error:any) {
+
+    } catch(error:any){
+
 
       console.error(error);
 
+
       setError(
         error.message ||
-        "Unable to connect to BloomHer AI server."
+        "Unable to connect to BloomHer server."
       );
 
 
       // Remove temporary message
-      setMessages((prev)=>prev.slice(0,-1));
+      setMessages((prev)=>
+        prev.slice(0,-1)
+      );
 
 
     } finally {
@@ -136,50 +186,179 @@ export default function AIChat() {
 
 
 
-  // Enter key support
-  function handleKeyDown(
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) {
 
-    if(e.key === "Enter" && !loading){
-      sendMessage();
+
+  // Clear Chat History
+  async function clearChat(){
+
+    const confirmDelete =
+      window.confirm(
+        "Are you sure you want to clear all chat history?"
+      );
+
+
+    if(!confirmDelete)
+      return;
+
+
+
+    try {
+
+      setLoading(true);
+      setError("");
+
+
+
+      const res = await fetch(
+        `${API_URL}/chat/`,
+        {
+          method:"DELETE",
+        }
+      );
+
+
+
+      const data = await res.json();
+
+
+
+      if(!res.ok){
+
+        throw new Error(
+          data.detail ||
+          "Failed to clear chat"
+        );
+
+      }
+
+
+
+      // Clear UI messages
+
+      setMessages([]);
+
+
+
+    } catch(error:any){
+
+
+      console.error(error);
+
+
+      setError(
+        error.message ||
+        "Unable to clear chat history."
+      );
+
+
+    } finally {
+
+      setLoading(false);
+
     }
 
   }
 
 
 
+
+
+  // Enter key support
+  function handleKeyDown(
+    e: React.KeyboardEvent<HTMLInputElement>
+  ){
+
+    if(
+      e.key==="Enter" &&
+      !loading
+    ){
+
+      sendMessage();
+
+    }
+
+  }
+
+
+
+
+
   return (
 
     <div className="
-      min-h-screen 
-      bg-gradient-to-br 
-      from-pink-50 
-      to-purple-50 
-      p-4 
+      min-h-screen
+      bg-gradient-to-br
+      from-pink-50
+      to-purple-50
+      p-4
       sm:p-8
     ">
 
 
       <div className="
-        max-w-4xl 
+        max-w-4xl
         mx-auto
       ">
 
 
-        <h1 className="
-          text-3xl 
-          sm:text-4xl 
-          font-bold 
-          text-purple-700 
+
+        {/* Header */}
+
+        <div className="
+          flex
+          justify-between
+          items-center
           mb-6
         ">
-          🤖 BloomHer AI Chat
-        </h1>
+
+
+          <h1 className="
+            text-3xl
+            sm:text-4xl
+            font-bold
+            text-purple-700
+          ">
+
+            🤖 BloomHer AI Chat
+
+          </h1>
 
 
 
-        {/* Error */}
+
+          <button
+
+            onClick={clearChat}
+
+            disabled={
+              loading ||
+              messages.length===0
+            }
+
+            className="
+              bg-red-500
+              text-white
+              px-4
+              py-2
+              rounded-xl
+              hover:bg-red-600
+              disabled:bg-gray-400
+            "
+
+          >
+
+            🗑️ Clear
+
+          </button>
+
+
+        </div>
+
+
+
+
+
+        {/* Error Message */}
 
         {
           error && (
@@ -191,7 +370,9 @@ export default function AIChat() {
               rounded-xl
               mb-4
             ">
+
               {error}
+
             </div>
 
           )
@@ -199,7 +380,9 @@ export default function AIChat() {
 
 
 
-        {/* Chat Box */}
+
+
+        {/* Chat Area */}
 
         <div className="
           bg-white
@@ -213,31 +396,39 @@ export default function AIChat() {
 
 
           {
-            messages.length === 0 ? (
+            messages.length===0 ? (
 
               <div className="
                 text-gray-500
                 text-center
                 mt-20
               ">
+
                 🌸 Start chatting with BloomHer AI
+
               </div>
 
 
             ) : (
 
+
               messages.map((chat,index)=>(
 
 
-                <div key={chat.id || index}>
+                <div
+                  key={
+                    chat.id || index
+                  }
+                >
 
 
-                  {/* User */}
+                  {/* User Message */}
 
                   <div className="
                     flex
                     justify-end
                   ">
+
 
                     <div className="
                       bg-pink-500
@@ -252,18 +443,21 @@ export default function AIChat() {
 
                     </div>
 
+
                   </div>
 
 
 
 
-                  {/* AI */}
+
+                  {/* AI Response */}
 
                   <div className="
                     flex
                     justify-start
                     mt-3
                   ">
+
 
                     <div className="
                       bg-purple-100
@@ -283,6 +477,7 @@ export default function AIChat() {
                   </div>
 
 
+
                 </div>
 
 
@@ -290,6 +485,7 @@ export default function AIChat() {
 
             )
           }
+
 
 
           <div ref={chatEndRef}/>
@@ -300,13 +496,15 @@ export default function AIChat() {
 
 
 
-        {/* Input */}
+
+        {/* Input Section */}
 
         <div className="
           flex
           gap-3
           mt-5
         ">
+
 
 
           <input
@@ -322,19 +520,26 @@ export default function AIChat() {
               focus:ring-pink-400
             "
 
+
             placeholder="
               Ask about PCOS, periods, diet...
             "
 
+
             value={message}
+
 
             onChange={(e)=>
               setMessage(e.target.value)
             }
 
+
             onKeyDown={handleKeyDown}
 
+
           />
+
+
 
 
 
@@ -347,7 +552,7 @@ export default function AIChat() {
             className="
               bg-pink-500
               text-white
-              px-5
+              px-6
               rounded-xl
               hover:bg-pink-600
               disabled:bg-gray-400
@@ -356,7 +561,7 @@ export default function AIChat() {
           >
 
             {
-              loading 
+              loading
               ? "..."
               : "Send"
             }
@@ -366,6 +571,7 @@ export default function AIChat() {
 
 
         </div>
+
 
 
       </div>
