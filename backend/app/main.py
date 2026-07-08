@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database.database import engine
 from app.database.models import Base
+from app.database.init_db import init_db
 
 # ---------------- ROUTES ----------------
 from app.routes.health_test import router as health_router
@@ -14,8 +15,8 @@ from app.routes.water import router as water_router
 from app.routes.period_risk import router as period_risk_router
 from app.routes.period_risk_ml import router as period_risk_ml_router
 from app.routes.pcos import router as pcos_router
-from app.database.init_db import init_db
 
+# ---------------- INITIALIZE DATABASE ----------------
 init_db()
 
 # ---------------- APP ----------------
@@ -24,19 +25,24 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# ---------------- DB ----------------
+# ---------------- DATABASE ----------------
 Base.metadata.create_all(bind=engine)
 
 # ---------------- CORS ----------------
+origins = [
+    "http://localhost:3000",
+    "https://bloom-her-ai.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ---------------- ROUTER REGISTRATION ----------------
+# ---------------- ROUTES ----------------
 app.include_router(health_router)
 app.include_router(profile_router)
 app.include_router(chat_router)
