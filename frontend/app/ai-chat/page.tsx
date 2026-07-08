@@ -40,11 +40,15 @@ export default function AIChat() {
         return;
       }
 
-      // Backend returns "reply"
-      setResponse(data.reply);
+      // Support both backend response formats
+      setResponse(
+        data.response ||
+        data.reply ||
+        "No response received from BloomHer AI."
+      );
 
     } catch (error) {
-      console.error(error);
+      console.error("Fetch Error:", error);
       setResponse("Unable to connect to BloomHer server.");
     } finally {
       setLoading(false);
@@ -53,12 +57,13 @@ export default function AIChat() {
 
   return (
     <div className="min-h-screen bg-pink-50 p-8">
+
       <h1 className="text-4xl font-bold text-purple-700 mb-6">
         🤖 BloomHer AI Chat
       </h1>
 
       <input
-        className="w-full border p-3 rounded-xl"
+        className="w-full border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
         placeholder="Ask about PCOS, periods, diet..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -73,12 +78,17 @@ export default function AIChat() {
       </button>
 
       <div className="mt-6 bg-white p-5 rounded-xl shadow">
+
         <h2 className="text-lg font-semibold mb-2">
           AI Response
         </h2>
 
-        <p>{response}</p>
+        <p className="text-gray-700 whitespace-pre-wrap break-words">
+          {response || "Ask me anything about PCOS, periods, diet, thyroid, or women's health."}
+        </p>
+
       </div>
+
     </div>
   );
 }
