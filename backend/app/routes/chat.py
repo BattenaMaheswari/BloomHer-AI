@@ -1,11 +1,10 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database.database import get_db
 from app.database.models import Chat
 from app.schemas.chat import ChatCreate
 from app.services.ai_service import get_ai_response
-
 
 router = APIRouter(
     prefix="/chat",
@@ -16,20 +15,16 @@ router = APIRouter(
 # =========================
 # SEND MESSAGE
 # =========================
-
-@router.post("")
+@router.post("/")
 def send_chat(
     req: ChatCreate,
     db: Session = Depends(get_db)
 ):
-
     try:
-
-        # Get AI reply
+        # Get AI response
         ai_reply = get_ai_response(req.message)
 
-
-        # Save in database
+        # Save chat in database
         chat = Chat(
             user_message=req.message,
             ai_response=ai_reply
@@ -39,35 +34,32 @@ def send_chat(
         db.commit()
         db.refresh(chat)
 
-
         return {
             "response": ai_reply
         }
 
-
     except Exception as e:
+        db.rollback()
+        print("Database Error:", str(e))
 
-        return {
-            "error": str(e)
-        }
-
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to save chat: {str(e)}"
+        )
 
 
 # =========================
 # CHAT HISTORY
 # =========================
-
-@router.get("")
+@router.get("/")
 def chat_history(
     db: Session = Depends(get_db)
 ):
-
     chats = (
         db.query(Chat)
         .order_by(Chat.id.desc())
         .all()
     )
-
 
     return {
         "history": [
