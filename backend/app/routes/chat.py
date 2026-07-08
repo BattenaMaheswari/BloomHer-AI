@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from app.database.database import get_db
 from app.database.models import Chat
 from app.schemas.chat import ChatCreate
-
 from app.services.ai_service import get_ai_response
 
 
@@ -15,44 +14,51 @@ router = APIRouter(
 
 
 # =========================
-# SEND MESSAGE TO AI
+# SEND MESSAGE
 # =========================
 
-@router.post("/")
-def chat(
+@router.post("")
+def send_chat(
     req: ChatCreate,
     db: Session = Depends(get_db)
 ):
 
-    # AI response
-    reply = get_ai_response(
-        req.message
-    )
+    try:
+
+        # Get AI reply
+        ai_reply = get_ai_response(req.message)
 
 
-    # Save chat history
-    new_chat = Chat(
-        user_message=req.message,
-        ai_response=reply
-    )
+        # Save in database
+        chat = Chat(
+            user_message=req.message,
+            ai_response=ai_reply
+        )
 
-    db.add(new_chat)
-    db.commit()
-    db.refresh(new_chat)
+        db.add(chat)
+        db.commit()
+        db.refresh(chat)
 
 
-    return {
-        "reply": reply
-    }
+        return {
+            "response": ai_reply
+        }
+
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }
 
 
 
 # =========================
-# GET CHAT HISTORY
+# CHAT HISTORY
 # =========================
 
-@router.get("/")
-def get_chats(
+@router.get("")
+def chat_history(
     db: Session = Depends(get_db)
 ):
 
@@ -63,12 +69,14 @@ def get_chats(
     )
 
 
-    return [
-        {
-            "id": chat.id,
-            "user_message": chat.user_message,
-            "ai_response": chat.ai_response,
-            "created_at": chat.created_at
-        }
-        for chat in chats
-    ]
+    return {
+        "history": [
+            {
+                "id": chat.id,
+                "message": chat.user_message,
+                "response": chat.ai_response,
+                "time": chat.created_at
+            }
+            for chat in chats
+        ]
+    }
