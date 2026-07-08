@@ -72,3 +72,27 @@ def chat_history(
             for chat in chats
         ]
     }
+
+
+# =========================
+# CLEAR CHAT HISTORY
+# =========================
+@router.delete("/")
+def clear_chat(
+    db: Session = Depends(get_db)
+):
+    try:
+        db.query(Chat).delete()
+        db.commit()
+
+        return {
+            "message": "Chat history cleared successfully."
+        }
+
+    except Exception as e:
+        db.rollback()
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to clear chat history: {str(e)}"
+        )
