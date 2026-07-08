@@ -1,11 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AIChat() {
   const [message, setMessage] = useState("");
-  const [response, setResponse] = useState("");
+  const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Load previous chats
+  async function loadHistory() {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/chat/`
+      );
+
+      const data = await res.json();
+
+      console.log("History:", data);
+
+      setMessages(data.history || []);
+    } catch (error) {
+      console.error("History Error:", error);
+    }
+  }
+
+  useEffect(() => {
+    loadHistory();
+  }, []);
 
   async function sendMessage() {
     if (!message.trim()) {
@@ -36,20 +57,19 @@ export default function AIChat() {
       console.log("Response:", data);
 
       if (!res.ok) {
-        setResponse(data.detail || "Something went wrong.");
+        alert(data.detail || "Something went wrong.");
         return;
       }
 
-      // Support both backend response formats
-      setResponse(
-        data.response ||
-        data.reply ||
-        "No response received from BloomHer AI."
-      );
+      // Reload chat history
+      await loadHistory();
+
+      // Clear input
+      setMessage("");
 
     } catch (error) {
-      console.error("Fetch Error:", error);
-      setResponse("Unable to connect to BloomHer server.");
+      console.error(error);
+      alert("Unable to connect to BloomHer server.");
     } finally {
       setLoading(false);
     }
@@ -58,34 +78,72 @@ export default function AIChat() {
   return (
     <div className="min-h-screen bg-pink-50 p-8">
 
-      <h1 className="text-4xl font-bold text-purple-700 mb-6">
+      <h1 className="text-4xl font-bold text-purple-700 mb-8">
         🤖 BloomHer AI Chat
       </h1>
 
-      <input
-        className="w-full border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
-        placeholder="Ask about PCOS, periods, diet..."
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+      {/* Input */}
 
-      <button
-        onClick={sendMessage}
-        disabled={loading}
-        className="mt-4 bg-pink-500 text-white px-6 py-3 rounded-xl hover:bg-pink-600 disabled:bg-gray-400"
-      >
-        {loading ? "Thinking..." : "Send"}
-      </button>
+      <div className="flex gap-3">
 
-      <div className="mt-6 bg-white p-5 rounded-xl shadow">
+        <input
+          className="flex-1 border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
+          placeholder="Ask about PCOS, periods, diet..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
 
-        <h2 className="text-lg font-semibold mb-2">
-          AI Response
-        </h2>
+        <button
+          onClick={sendMessage}
+          disabled={loading}
+          className="bg-pink-500 text-white px-6 rounded-xl hover:bg-pink-600 disabled:bg-gray-400"
+        >
+          {loading ? "Thinking..." : "Send"}
+        </button>
 
-        <p className="text-gray-700 whitespace-pre-wrap break-words">
-          {response || "Ask me anything about PCOS, periods, diet, thyroid, or women's health."}
-        </p>
+      </div>
+
+      {/* Chat History */}
+
+      <div className="mt-8 space-y-6">
+
+        {messages.length === 0 ? (
+
+          <div className="bg-white p-5 rounded-xl shadow text-gray-500">
+            Start chatting with BloomHer AI 🌸
+          </div>
+
+        ) : (
+
+          messages.map((chat: any) => (
+
+            <div key={chat.id}>
+
+              {/* User */}
+
+              <div className="flex justify-end">
+
+                <div className="bg-pink-500 text-white px-4 py-3 rounded-2xl max-w-xl shadow">
+                  {chat.message}
+                </div>
+
+              </div>
+
+              {/* AI */}
+
+              <div className="flex justify-start mt-3">
+
+                <div className="bg-white px-4 py-3 rounded-2xl shadow max-w-xl whitespace-pre-wrap">
+                  {chat.response}
+                </div>
+
+              </div>
+
+            </div>
+
+          ))
+
+        )}
 
       </div>
 
