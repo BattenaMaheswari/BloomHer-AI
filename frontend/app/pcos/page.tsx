@@ -2,12 +2,29 @@
 
 import { useState } from "react";
 
-export default function PCOSPage() {
+interface PCOSFormData {
+  user_name: string;
+  age: string;
+  bmi: string;
+  cycle_length: string;
+  lh: string;
+  fsh: string;
+  amh: string;
+  weight_gain: string;
+  hair_growth: string;
+}
 
+interface PCOSResult {
+  risk?: string;
+  confidence?: number;
+  prediction?: string;
+  message?: string;
+}
+
+export default function PCOSPage() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-
-  const [formData, setFormData] = useState({
+  const initialForm: PCOSFormData = {
     user_name: "",
     age: "",
     bmi: "",
@@ -17,173 +34,181 @@ export default function PCOSPage() {
     amh: "",
     weight_gain: "",
     hair_growth: "",
-  });
+  };
 
-
-  const [result, setResult] = useState<any>(null);
+  const [formData, setFormData] = useState(initialForm);
+  const [result, setResult] = useState<PCOSResult | null>(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-
-
-  const handleChange = (e: any) => {
-
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
 
-  };
+    // Remove previous prediction while entering new details
+    setResult(null);
+    setError("");
+  }
 
+  function resetForm() {
+    setFormData(initialForm);
+    setResult(null);
+    setError("");
+  }
 
-
-  const handleSubmit = async (e: any) => {
-
+  async function handleSubmit(
+    e: React.FormEvent
+  ) {
     e.preventDefault();
 
     try {
+      setLoading(true);
+      setError("");
+      setResult(null);
+
+      if (!API_URL) {
+        throw new Error("API URL is missing.");
+      }
 
       const response = await fetch(
         `${API_URL}/pcos/predict`,
         {
           method: "POST",
-
           headers: {
             "Content-Type": "application/json",
           },
-
-
           body: JSON.stringify({
-
             user_name: formData.user_name,
-
             age: Number(formData.age),
-
             bmi: Number(formData.bmi),
-
             cycle_length: Number(formData.cycle_length),
-
             lh: Number(formData.lh),
-
             fsh: Number(formData.fsh),
-
             amh: Number(formData.amh),
-
             weight_gain: Number(formData.weight_gain),
-
             hair_growth: Number(formData.hair_growth),
-
           }),
-
         }
       );
 
-
       const data = await response.json();
+
+      console.log(data);
+
+      if (!response.ok) {
+        throw new Error(
+          data.detail || "Prediction failed."
+        );
+      }
 
       setResult(data);
 
-
-    } catch (err) {
+    } catch (err: any) {
+      console.error(err);
 
       setError(
-        "Unable to connect to BloomHer server"
+        err.message ||
+          "Unable to connect to BloomHer server."
       );
-
+    } finally {
+      setLoading(false);
     }
-
-  };
-
-
+  }
 
   return (
+    <main className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-6">
 
-    <main className="min-h-screen bg-pink-50 p-6">
+      <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-8">
 
+        <h1 className="text-3xl font-bold text-purple-700 mb-6">
+          🩺 PCOS Prediction
+        </h1>
 
-      <h1 className="text-3xl font-bold text-purple-700 mb-6">
-        🩺 PCOS Prediction
-      </h1>
-
-
-
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-3 max-w-md"
-      >
-
-
-        {Object.keys(formData).map((field) => (
-
-          <input
-
-            key={field}
-
-            name={field}
-
-            placeholder={field.replace("_"," ")}
-
-            value={(formData as any)[field]}
-
-            onChange={handleChange}
-
-            className="border p-2 rounded"
-
-          />
-
-        ))}
-
-
-
-        <button
-
-          type="submit"
-
-          className="bg-pink-500 text-white p-2 rounded"
-
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4"
         >
 
-          Predict
+          {Object.keys(formData).map((field) => (
 
-        </button>
+            <input
+              key={field}
+              name={field}
+              value={
+                formData[field as keyof PCOSFormData]
+              }
+              onChange={handleChange}
+              placeholder={field
+                .replaceAll("_", " ")
+                .toUpperCase()}
+              className="w-full border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
+            />
 
+          ))}
 
-      </form>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-pink-500 text-white p-3 rounded-xl hover:bg-pink-600 disabled:bg-gray-400 transition"
+          >
+            {loading ? "Predicting..." : "Predict"}
+          </button>
 
+        </form>
 
+        {error && (
 
-      {error && (
+          <div className="mt-5 bg-red-100 text-red-600 p-4 rounded-xl">
 
-        <p className="text-red-500 mt-4">
-          {error}
-        </p>
+            {error}
 
-      )}
+          </div>
 
+        )}
 
+        {result && (
 
-      {result && (
+          <div className="mt-6 bg-purple-50 rounded-xl p-5 shadow">
 
-        <div className="mt-6 bg-white shadow p-5 rounded-xl">
+            <h2 className="text-xl font-bold text-purple-700">
+              Prediction Result
+            </h2>
 
+            <p className="mt-3">
+              <strong>Risk:</strong>{" "}
+              {result.risk || result.prediction}
+            </p>
 
-          <h2 className="text-xl font-bold">
-            Result
-          </h2>
+            {result.confidence !== undefined && (
+              <p>
+                <strong>Confidence:</strong>{" "}
+                {result.confidence}%
+              </p>
+            )}
 
+            {result.message && (
+              <p className="mt-3">
+                {result.message}
+              </p>
+            )}
 
-          <p>
-            Risk: {result.risk}
-          </p>
+            <button
+              onClick={resetForm}
+              className="mt-5 bg-purple-600 text-white px-5 py-2 rounded-xl hover:bg-purple-700 transition"
+            >
+              Predict Another User
+            </button>
 
+          </div>
 
-          <p>
-            Confidence: {result.confidence}%
-          </p>
+        )}
 
+      </div>
 
-        </div>
-
-      )}
     </main>
   );
 }
