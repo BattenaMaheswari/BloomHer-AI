@@ -32,6 +32,7 @@ Base.metadata.create_all(bind=engine)
 origins = [
     "http://localhost:3000",
     "https://bloom-her-ai.vercel.app",
+    "https://bloom-her-ai-git-main-battenamaheswaris-projects.vercel.app",
 ]
 
 app.add_middleware(
