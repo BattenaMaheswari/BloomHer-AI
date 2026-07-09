@@ -2,103 +2,143 @@
 
 import { useState } from "react";
 
-export default function Profile() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [goal, setGoal] = useState("");
+export default function ProfilePage() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    height: "",
+    weight: "",
+    goal: "",
+  });
 
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSave = async () => {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+
+    setMessage("");
+  }
+
+  async function saveProfile(
+    e: React.FormEvent
+  ) {
+    e.preventDefault();
+
     try {
-      const res = await fetch("http://127.0.0.1:8000/profile/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          age: Number(age),
-          height: Number(height),
-          weight: Number(weight),
-          goal,
-        }),
-      });
+      setLoading(true);
+
+      const res = await fetch(
+        `${API_URL}/profile/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            age: Number(formData.age),
+            height: Number(formData.height),
+            weight: Number(formData.weight),
+            goal: formData.goal,
+          }),
+        }
+      );
 
       const data = await res.json();
-      setMessage(data.message);
 
-    } catch (error) {
-      console.error(error);
-      setMessage("Error saving profile");
+      if (!res.ok) {
+        throw new Error(
+          data.detail || "Unable to save profile."
+        );
+      }
+
+      setMessage("✅ Profile saved successfully!");
+
+    } catch (err: any) {
+      setMessage(err.message);
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
   return (
-    <main className="min-h-screen bg-pink-50 p-8">
+    <main className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-6">
 
-      <div className="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+      <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-8">
 
-        <h1 className="text-4xl font-bold text-purple-700 mb-6">
-          👤 Profile Setup
+        <h1 className="text-3xl font-bold text-purple-700 mb-6">
+          👤 My Profile
         </h1>
 
-        <div className="space-y-4">
+        <form
+          onSubmit={saveProfile}
+          className="space-y-4"
+        >
 
           <input
-            className="border p-3 w-full rounded-lg"
+            name="name"
             placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-xl"
           />
 
           <input
-            type="number"
-            className="border p-3 w-full rounded-lg"
+            name="age"
             placeholder="Age"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
+            value={formData.age}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-xl"
           />
 
           <input
-            type="number"
-            className="border p-3 w-full rounded-lg"
-            placeholder="Height"
-            value={height}
-            onChange={(e) => setHeight(e.target.value)}
+            name="height"
+            placeholder="Height (cm)"
+            value={formData.height}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-xl"
           />
 
           <input
-            type="number"
-            className="border p-3 w-full rounded-lg"
-            placeholder="Weight"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
+            name="weight"
+            placeholder="Weight (kg)"
+            value={formData.weight}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-xl"
           />
 
           <input
-            className="border p-3 w-full rounded-lg"
-            placeholder="Goal (e.g., Healthy Lifestyle)"
-            value={goal}
-            onChange={(e) => setGoal(e.target.value)}
+            name="goal"
+            placeholder="Goal (Weight Loss / Healthy Lifestyle)"
+            value={formData.goal}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-xl"
           />
 
           <button
-            onClick={handleSave}
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700"
+            type="submit"
+            disabled={loading}
+            className="w-full bg-pink-500 text-white p-3 rounded-xl hover:bg-pink-600"
           >
-            Save Profile
+            {loading ? "Saving..." : "Save Profile"}
           </button>
 
-          {message && (
-            <p className="text-green-600 font-semibold mt-4">
-              {message}
-            </p>
-          )}
+        </form>
 
-        </div>
+        {message && (
+          <div className="mt-5 bg-purple-100 text-purple-700 p-4 rounded-xl">
+            {message}
+          </div>
+        )}
+
       </div>
 
     </main>
