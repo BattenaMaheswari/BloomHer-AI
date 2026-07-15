@@ -85,7 +85,7 @@ export default function HealthTest() {
         <div className="flex flex-col items-center mb-8">
 
           <Image
-            src="/images/health.jpg"
+            src="/images/womenhealth assesment.jpg"
             alt="Health Assessment"
             width={180}
             height={180}
