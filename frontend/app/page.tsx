@@ -124,7 +124,7 @@ export default function Home() {
           <div className="flex justify-center">
 
             <Image
-              src="/images/bloomeher.jpg"
+              src="/images/bloomher.jpg"
               alt="BloomHer AI"
               width={550}
               height={550}
