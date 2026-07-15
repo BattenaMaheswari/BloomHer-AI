@@ -63,7 +63,7 @@ export default function WaterPage() {
         <div className="flex flex-col items-center mb-8">
 
           <Image
-            src="/images/waterintake.jpg"
+            src="/images/waterintake.webp"
             alt="Water Tracker"
             width={180}
             height={180}
