@@ -138,7 +138,7 @@ export default function PCOSPage() {
           </h1>
 
           <p className="text-gray-500 mt-2 text-center">
-            Predict your PCOS risk using Machine Learning
+            Predict your PCOS risk overhere
           </p>
 
         </div>

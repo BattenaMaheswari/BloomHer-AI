@@ -67,11 +67,11 @@ export default function Home() {
 
           <div>
 
-            <h2 className="text-5xl lg:text-6xl font-bold text-purple-800 leading-tight mb-6">
+            <h3 className="text-5xl lg:text-6xl font-bold text-purple-800 leading-tight mb-6">
 
               Your Personal Women's Health Companion
 
-            </h2>
+            </h3>
 
             <p className="text-xl text-gray-600 mb-8">
 
