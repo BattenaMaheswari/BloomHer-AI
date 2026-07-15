@@ -143,7 +143,7 @@ export default function Home() {
           <Link href="/health-test">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/womehealth assesment.jpg"
+                src="/images/womenhealth assesment.jpg"
                 alt="Health Test"
                 width={400}
                 height={220}
@@ -185,7 +185,7 @@ export default function Home() {
           <Link href="/period">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/periodtraker.jpeg"
+                src="/images/periodtracker.jpeg"
                 alt="Period Tracker"
                 width={400}
                 height={220}
@@ -206,7 +206,7 @@ export default function Home() {
           <Link href="/water">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/waterintake.jpg"
+                src="/images/waterintake.webp"
                 alt="Water Tracker"
                 width={400}
                 height={220}
@@ -269,7 +269,7 @@ export default function Home() {
           <Link href="/history">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/history.jpg"
+                src="/images/chathistory.jpg"
                 alt="History"
                 width={400}
                 height={220}
