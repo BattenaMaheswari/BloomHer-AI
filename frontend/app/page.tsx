@@ -209,7 +209,7 @@ export default function Home() {
                 src="/images/waterintake.webp"
                 alt="Water Tracker"
                 width={400}
-                height={220}
+                height={210}
                 className="w-full h-44 object-cover"
               />
               <div className="p-5">
