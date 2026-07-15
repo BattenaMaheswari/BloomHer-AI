@@ -89,7 +89,7 @@ export default function ProfilePage() {
         <div className="flex flex-col items-center mb-8">
 
           <Image
-            src="/images/profile.jpg"
+            src="/images/womenprofile.jpg"
             alt="Profile"
             width={180}
             height={180}

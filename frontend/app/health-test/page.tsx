@@ -1,9 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export default function HealthTest() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const resetForm = () => {
+    setAge("");
+    setHeight("");
+    setWeight("");
+    setCycleLength("");
+
+    setIrregularPeriods(false);
+    setAcne(false);
+    setHairLoss(false);
+    setWeightGain(false);
+    setFatigue(false);
+
+    setResult(null);
+    setError("");
+  };
 
   const [age, setAge] = useState("");
   const [height, setHeight] = useState("");
@@ -26,40 +43,32 @@ export default function HealthTest() {
       setResult(null);
       setError("");
 
-      const response = await fetch(
-        `${API_URL}/health-test`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            age: Number(age),
-            height: Number(height),
-            weight: Number(weight),
-            cycle_length: Number(cycleLength),
-            irregular_periods: irregularPeriods,
-            acne,
-            hair_loss: hairLoss,
-            weight_gain: weightGain,
-            fatigue,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/health-test`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          age: Number(age),
+          height: Number(height),
+          weight: Number(weight),
+          cycle_length: Number(cycleLength),
+          irregular_periods: irregularPeriods,
+          acne,
+          hair_loss: hairLoss,
+          weight_gain: weightGain,
+          fatigue,
+        }),
+      });
 
       const data = await response.json();
 
-      console.log("Health Test Response:", data);
-
       if (!response.ok) {
-        throw new Error(
-          data.detail || "Unable to analyze your health."
-        );
+        throw new Error(data.detail || "Unable to analyze health.");
       }
 
       setResult(data);
     } catch (err: any) {
-      console.error(err);
       setError(
         err.message || "Unable to connect to BloomHer server."
       );
@@ -69,22 +78,38 @@ export default function HealthTest() {
   };
 
   return (
-    <main className="min-h-screen bg-pink-50 p-8">
+    <main className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 px-4 py-8">
 
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+      <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-8">
 
-        <h1 className="text-4xl font-bold text-purple-700 mb-6">
-          🩺 Health Assessment
-        </h1>
+        <div className="flex flex-col items-center mb-8">
 
-        <div className="grid md:grid-cols-2 gap-6">
+          <Image
+            src="/images/health.jpg"
+            alt="Health Assessment"
+            width={180}
+            height={180}
+            className="rounded-full border-4 border-purple-300 shadow-lg object-cover"
+          />
+
+          <h1 className="mt-4 text-3xl font-bold text-purple-700">
+            Health Assessment
+          </h1>
+
+          <p className="text-gray-500 text-center mt-2">
+            Analyze your health symptoms using AI.
+          </p>
+
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
           <input
             type="number"
             placeholder="Age"
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-xl focus:ring-2 focus:ring-purple-400 outline-none"
           />
 
           <input
@@ -92,7 +117,7 @@ export default function HealthTest() {
             placeholder="Height (cm)"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-xl focus:ring-2 focus:ring-purple-400 outline-none"
           />
 
           <input
@@ -100,7 +125,7 @@ export default function HealthTest() {
             placeholder="Weight (kg)"
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-xl focus:ring-2 focus:ring-purple-400 outline-none"
           />
 
           <input
@@ -108,18 +133,18 @@ export default function HealthTest() {
             placeholder="Cycle Length (days)"
             value={cycleLength}
             onChange={(e) => setCycleLength(e.target.value)}
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-xl focus:ring-2 focus:ring-purple-400 outline-none"
           />
 
         </div>
 
-        <h2 className="text-2xl font-bold mt-8 mb-4">
+        <h2 className="text-2xl font-bold text-purple-700 mt-8 mb-4">
           Symptoms
         </h2>
 
         <div className="space-y-3">
 
-          <label className="block">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={irregularPeriods}
@@ -127,43 +152,43 @@ export default function HealthTest() {
                 setIrregularPeriods(e.target.checked)
               }
             />
-            {" "}Irregular Periods
+            Irregular Periods
           </label>
 
-          <label className="block">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={acne}
               onChange={(e) => setAcne(e.target.checked)}
             />
-            {" "}Acne
+            Acne
           </label>
 
-          <label className="block">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={hairLoss}
               onChange={(e) => setHairLoss(e.target.checked)}
             />
-            {" "}Hair Loss
+            Hair Loss
           </label>
 
-          <label className="block">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={weightGain}
               onChange={(e) => setWeightGain(e.target.checked)}
             />
-            {" "}Weight Gain
+            Weight Gain
           </label>
 
-          <label className="block">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={fatigue}
               onChange={(e) => setFatigue(e.target.checked)}
             />
-            {" "}Fatigue
+            Fatigue
           </label>
 
         </div>
@@ -171,7 +196,7 @@ export default function HealthTest() {
         <button
           onClick={handleAnalyze}
           disabled={loading}
-          className="mt-8 bg-purple-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 disabled:bg-gray-400"
+          className="w-full mt-8 bg-purple-600 text-white py-3 rounded-xl hover:bg-purple-700 disabled:bg-gray-400 transition"
         >
           {loading ? "Analyzing..." : "Analyze My Health"}
         </button>
@@ -183,21 +208,34 @@ export default function HealthTest() {
         )}
 
         {result && (
-          <div className="mt-8 bg-purple-50 border rounded-xl p-6">
 
-            <h2 className="text-2xl font-bold text-purple-700 mb-4">
+          <div className="mt-8 bg-purple-50 rounded-2xl shadow-md p-6">
+
+            <h2 className="text-2xl font-bold text-purple-700 mb-5">
               Prediction Results
             </h2>
 
-            <p className="text-lg mb-3">
-              🩺 <strong>PCOS Risk:</strong> {result.pcos_risk}%
-            </p>
+            <div className="space-y-3">
 
-            <p className="text-lg">
-              🦋 <strong>Thyroid Risk:</strong> {result.thyroid_risk}%
-            </p>
+              <p className="text-lg">
+                <strong>PCOS Risk:</strong> {result.pcos_risk}%
+              </p>
+
+              <p className="text-lg">
+                <strong>Thyroid Risk:</strong> {result.thyroid_risk}%
+              </p>
+
+            </div>
+
+            <button
+              onClick={resetForm}
+              className="mt-6 bg-purple-600 text-white px-6 py-3 rounded-xl hover:bg-purple-700 transition"
+            >
+              Analyze Another User
+            </button>
 
           </div>
+
         )}
 
       </div>
