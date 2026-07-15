@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface PCOSFormData {
   user_name: string;
@@ -49,7 +50,6 @@ export default function PCOSPage() {
       [e.target.name]: e.target.value,
     });
 
-    // Remove previous prediction while entering new details
     setResult(null);
     setError("");
   }
@@ -97,8 +97,6 @@ export default function PCOSPage() {
 
       const data = await response.json();
 
-      console.log(data);
-
       if (!response.ok) {
         throw new Error(
           data.detail || "Prediction failed."
@@ -108,11 +106,9 @@ export default function PCOSPage() {
       setResult(data);
 
     } catch (err: any) {
-      console.error(err);
-
       setError(
         err.message ||
-          "Unable to connect to BloomHer server."
+        "Unable to connect to BloomHer server."
       );
     } finally {
       setLoading(false);
@@ -124,9 +120,28 @@ export default function PCOSPage() {
 
       <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-8">
 
-        <h1 className="text-3xl font-bold text-purple-700 mb-6">
-          🩺 PCOS Prediction
-        </h1>
+        {/* Image */}
+
+        <div className="flex flex-col items-center mb-8">
+
+          <Image
+            src="/images/pcosprediction.jpg"
+            alt="PCOS Prediction"
+            width={180}
+            height={180}
+            priority
+            className="rounded-full border-4 border-pink-400 shadow-lg object-cover"
+          />
+
+          <h1 className="mt-5 text-3xl font-bold text-purple-700">
+            PCOS Prediction
+          </h1>
+
+          <p className="text-gray-500 mt-2 text-center">
+            Predict your PCOS risk using Machine Learning
+          </p>
+
+        </div>
 
         <form
           onSubmit={handleSubmit}
@@ -142,9 +157,9 @@ export default function PCOSPage() {
                 formData[field as keyof PCOSFormData]
               }
               onChange={handleChange}
-              placeholder={field
-                .replaceAll("_", " ")
-                .toUpperCase()}
+              placeholder={
+                field.replaceAll("_", " ").toUpperCase()
+              }
               className="w-full border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
             />
 
@@ -179,21 +194,23 @@ export default function PCOSPage() {
             </h2>
 
             <p className="mt-3">
-              <strong>Risk:</strong>{" "}
-              {result.risk || result.prediction}
+              <strong>Risk:</strong> {result.risk || result.prediction}
             </p>
 
             {result.confidence !== undefined && (
+
               <p>
-                <strong>Confidence:</strong>{" "}
-                {result.confidence}%
+                <strong>Confidence:</strong> {result.confidence}%
               </p>
+
             )}
 
             {result.message && (
+
               <p className="mt-3">
                 {result.message}
               </p>
+
             )}
 
             <button
