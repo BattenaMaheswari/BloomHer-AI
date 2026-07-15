@@ -114,7 +114,7 @@ export default function Home() {
           <div className="flex justify-center">
 
             <Image
-              src="/images/bloomher.jpg"
+              src="/images/bloomeheraii.jpg"
               alt="BloomHer AI"
               width={420}
               height={420}
@@ -143,7 +143,7 @@ export default function Home() {
           <Link href="/health-test">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/health.jpg"
+                src="/images/womehealth assesment.jpg"
                 alt="Health Test"
                 width={400}
                 height={220}
@@ -164,7 +164,7 @@ export default function Home() {
           <Link href="/pcos">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/pcos.jpg"
+                src="/images/pcosprediction.jpg"
                 alt="PCOS Prediction"
                 width={400}
                 height={220}
@@ -185,7 +185,7 @@ export default function Home() {
           <Link href="/period">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/period.jpg"
+                src="/images/periodtraker.jpeg"
                 alt="Period Tracker"
                 width={400}
                 height={220}
@@ -206,7 +206,7 @@ export default function Home() {
           <Link href="/water">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/water.jpg"
+                src="/images/waterintake.jpg"
                 alt="Water Tracker"
                 width={400}
                 height={220}
@@ -227,7 +227,7 @@ export default function Home() {
           <Link href="/ai-chat">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/chat.jpg"
+                src="/images/chatwithai.jpg"
                 alt="AI Chat"
                 width={400}
                 height={220}
@@ -290,7 +290,7 @@ export default function Home() {
           <Link href="/profile">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition cursor-pointer">
               <Image
-                src="/images/profile.jpg"
+                src="/images/womenprofile.jpg"
                 alt="Profile"
                 width={400}
                 height={220}
