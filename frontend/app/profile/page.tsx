@@ -1,6 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+<div className="flex flex-col items-center mb-8">
+
+  <Image
+    src="/images/profile.jpg"
+    alt="Profile"
+    width={180}
+    height={180}
+    className="rounded-full border-4 border-pink-400 shadow-lg object-cover"
+  />
+
+  <h2 className="mt-4 text-2xl font-bold text-purple-700">
+    My Profile
+  </h2>
+
+  <p className="text-gray-500">
+    Manage your personal health information
+  </p>
+
+</div>
 
 export default function ProfilePage() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
