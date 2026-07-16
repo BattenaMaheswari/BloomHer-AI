@@ -138,7 +138,7 @@ export default function PCOSPage() {
           </h1>
 
           <p className="text-gray-600 mt-2 text-center text-sm sm:text-base px-2">
-            Predict your PCOS risk overhere
+            Enter your health details to predict your PCOS risk.
           </p>
 
         </div>
@@ -226,9 +226,9 @@ export default function PCOSPage() {
             Recommendation
           </h3>
 
-          <p className="text-gray-700 leading-7">
-            {result.message}
-          </p>
+          <p className="text-gray-700 leading-7 break-words">
+  {result.message}
+</p>
         </div>
 
       )}
