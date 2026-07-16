@@ -116,28 +116,28 @@ export default function PCOSPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-6">
+    <main className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 px-4 py-8">
 
-      <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+<div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-6 sm:p-8">
 
         {/* Image */}
 
         <div className="flex flex-col items-center mb-8">
 
-          <Image
-            src="/images/pcosprediction.jpg"
-            alt="PCOS Prediction"
-            width={180}
-            height={180}
-            priority
-            className="rounded-full border-4 border-pink-400 shadow-lg object-cover"
-          />
+        <Image
+  src="/images/pcosprediction.jpg"
+  alt="PCOS Prediction"
+  width={180}
+  height={180}
+  priority
+  className="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-pink-400 shadow-lg object-cover"
+/>
 
-          <h1 className="mt-5 text-3xl font-bold text-purple-700">
+          <h1 className="mt-5 text-2xl sm:text-3xl font-bold text-purple-700 text-center">
             PCOS Prediction
           </h1>
 
-          <p className="text-gray-500 mt-2 text-center">
+          <p className="text-gray-600 mt-2 text-center text-sm sm:text-base px-2">
             Predict your PCOS risk overhere
           </p>
 
@@ -160,7 +160,7 @@ export default function PCOSPage() {
               placeholder={
                 field.replaceAll("_", " ").toUpperCase()
               }
-              className="w-full border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full border border-gray-300 p-3 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-pink-500 focus:outline-none"
             />
 
           ))}
@@ -168,7 +168,7 @@ export default function PCOSPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-pink-500 text-white p-3 rounded-xl hover:bg-pink-600 disabled:bg-gray-400 transition"
+            className="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 rounded-xl transition duration-300 disabled:bg-gray-400"
           >
             {loading ? "Predicting..." : "Predict"}
           </button>
@@ -187,7 +187,7 @@ export default function PCOSPage() {
 
         {result && (
 
-          <div className="mt-6 bg-purple-50 rounded-xl p-5 shadow">
+          <div className="mt-6 rounded-2xl border border-purple-200 p-5">
 
             <h2 className="text-xl font-bold text-purple-700">
               Prediction Result
@@ -215,7 +215,7 @@ export default function PCOSPage() {
 
             <button
               onClick={resetForm}
-              className="mt-5 bg-purple-600 text-white px-5 py-2 rounded-xl hover:bg-purple-700 transition"
+              className="mt-5 w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition duration-300"
             >
               Predict Another User
             </button>
