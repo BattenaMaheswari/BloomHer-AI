@@ -155,7 +155,7 @@ export default function PeriodPage() {
                 Next Period Date
               </span>
 
-              <span className="font-bold text-pink-600">
+              <span className="w-full p-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-pink-500 focus:outline-none">
                 {result.next_period_date}
               </span>
 
