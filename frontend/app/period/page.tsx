@@ -57,45 +57,43 @@ export default function PeriodPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-100 p-6">
+    <main className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 px-4 py-8">
 
-      <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-xl p-8">
+      <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-6 sm:p-8">
 
         <div className="flex flex-col items-center mb-8">
 
           <Image
-            src="/images/periodtracker.jpeg"
-            alt="Period Tracker"
-            width={180}
-            height={180}
-            priority
-            className="rounded-full border-4 border-pink-400 shadow-lg object-cover"
-          />
-
-          <h1 className="text-3xl font-bold text-pink-700 mt-5">
+  src="/images/periodtracker.jpeg"
+  alt="Period Tracker"
+  width={180}
+  height={180}
+  priority
+  className="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-pink-400 shadow-lg object-cover"
+/>
+          <h1 className="mt-5 text-2xl sm:text-3xl font-bold text-pink-700 text-center">
             Period Tracker
           </h1>
 
-          <p className="text-gray-500 mt-2 text-center">
-            Track your menstrual cycle
-          </p>
+          <p className="mt-2 text-center text-sm sm:text-base text-gray-600 px-2 leading-6">
+  Keep tracking your menstrual cycle regularly to better understand your cycle pattern, predict upcoming periods, and monitor your reproductive health.
+</p>
 
         </div>
 
         <input
-          className="w-full border p-3 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400"
-          placeholder="User Name"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-
+  className="w-full border border-gray-300 bg-white text-gray-900 placeholder-gray-500 p-3 rounded-xl mb-5 focus:outline-none focus:ring-2 focus:ring-pink-500"
+  placeholder="Enter your name"
+  value={userName}
+  onChange={(e) => setUserName(e.target.value)}
+/>
         <label className="font-medium text-gray-600">
           Start Date
         </label>
 
         <input
           type="date"
-          className="w-full border p-3 rounded-xl mb-4 mt-2"
+          className="w-full border border-gray-300 bg-white text-gray-900 p-3 rounded-xl mt-2 mb-5 focus:outline-none focus:ring-2 focus:ring-pink-500"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
         />
@@ -106,7 +104,7 @@ export default function PeriodPage() {
 
         <input
           type="date"
-          className="w-full border p-3 rounded-xl mb-5 mt-2"
+          className="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 rounded-xl transition duration-300 disabled:bg-gray-400"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
         />
@@ -126,22 +124,39 @@ export default function PeriodPage() {
         )}
 
         {result && (
-          <div className="mt-6 bg-pink-100 p-5 rounded-xl">
+  <div className="mt-8 rounded-2xl border border-pink-200 p-6">
 
-            <h2 className="text-xl font-bold text-pink-700">
-              Saved Successfully
-            </h2>
+    <h2 className="text-2xl font-bold text-pink-700 text-center mb-6">
+      Period Saved Successfully
+    </h2>
 
-            <p className="mt-3">
-              Start Date: <strong>{result.start_date}</strong>
-            </p>
+    <div className="space-y-4">
 
-            <p>
-              End Date: <strong>{result.end_date}</strong>
-            </p>
+      <div className="flex justify-between border-b pb-3">
+        <span className="font-medium text-gray-700">
+          Start Date
+        </span>
 
-          </div>
-        )}
+        <span className="font-semibold text-pink-600">
+          {result.start_date}
+        </span>
+      </div>
+
+      <div className="flex justify-between">
+        <span className="font-medium text-gray-700">
+          End Date
+        </span>
+
+        <span className="font-semibold text-pink-600">
+          {result.end_date}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+)}
+        
 
       </div>
 
