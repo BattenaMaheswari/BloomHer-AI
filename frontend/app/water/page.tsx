@@ -81,20 +81,33 @@ export default function WaterPage() {
 
         </div>
 
-        <input
-          className="w-full border p-3 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="User Name"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
+    <div className="mb-4">
+  <label className="block mb-2 font-medium text-gray-700">
+    User Name
+  </label>
 
-        <input
-          type="number"
-          className="w-full border p-3 rounded-xl mb-5 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Glasses Drank Today"
-          value={glasses}
-          onChange={(e) => setGlasses(e.target.value)}
-        />
+  <input
+    type="text"
+    value={userName}
+    onChange={(e) => setUserName(e.target.value)}
+    placeholder="Enter your name"
+    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+  />
+</div>
+
+<div className="mb-5">
+  <label className="block mb-2 font-medium text-gray-700">
+    Water Intake (Glasses)
+  </label>
+
+  <input
+    type="number"
+    value={glasses}
+    onChange={(e) => setGlasses(e.target.value)}
+    placeholder="Example: 8"
+    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+  />
+</div>
 
         <button
           onClick={handleSubmit}
@@ -111,21 +124,52 @@ export default function WaterPage() {
         )}
 
         {result && (
-          <div className="mt-6 bg-blue-100 p-5 rounded-xl">
+  <div className="mt-6 border border-blue-200 rounded-2xl p-6">
 
-            <h2 className="text-xl font-bold text-blue-700">
-              Saved Successfully
-            </h2>
+    <h2 className="text-xl font-bold text-blue-700 mb-4">
+      Water Intake Summary
+    </h2>
 
-            <p className="mt-3">
-              Water Intake: <strong>{result.glasses}</strong> Glasses
-            </p>
+    <div className="flex justify-between border-b pb-3">
+      <span className="font-medium text-gray-700">
+        Water Intake
+      </span>
 
-          </div>
-        )}
+      <span className="font-bold text-blue-600">
+        {result.glasses} Glasses
+      </span>
+    </div>
 
+    {Number(result.glasses) < 8 ? (
+      <div className="mt-4">
+        <h3 className="font-semibold text-blue-700">
+          Recommendation
+        </h3>
+
+        <p className="text-gray-700 leading-7 mt-2">
+          Your water intake is below the recommended level. Try to drink approximately
+          <strong> 2 to 2.5 liters of water per day</strong> (about 8–10 glasses)
+          to stay hydrated and support your overall health.
+        </p>
       </div>
+    ) : (
+      <div className="mt-4">
+        <h3 className="font-semibold text-green-700">
+          Great Job!
+        </h3>
+
+        <p className="text-gray-700 leading-7 mt-2">
+          You're maintaining a healthy level of hydration. Continue drinking
+          enough water throughout the day to support your body's daily needs.
+        </p>
+      </div>
+    )}
+
+  </div>
+)}
+</div>
 
     </main>
+    
   );
 }
