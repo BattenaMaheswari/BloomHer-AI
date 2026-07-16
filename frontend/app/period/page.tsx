@@ -86,45 +86,45 @@ export default function PeriodPage() {
         <div className="space-y-5">
 
           <div>
-            <label className="block mb-2 font-medium text-gray-700">
-              User Name
-            </label>
+  <label className="block mb-2 font-medium text-gray-700">
+    User Name
+  </label>
 
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-pink-500 focus:outline-none"
-            />
-          </div>
+  <input
+    type="text"
+    placeholder="Enter your name"
+    value={userName}
+    onChange={(e) => setUserName(e.target.value)}
+    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-pink-500 focus:outline-none"
+  />
+</div>
 
-          <div>
-            <label className="block mb-2 font-medium text-gray-700">
-              Last Period Date
-            </label>
+<div>
+  <label className="block mb-2 font-medium text-gray-700">
+    Last Period Date
+  </label>
 
-            <input
-              type="date"
-              value={lastPeriodDate}
-              onChange={(e) => setLastPeriodDate(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-pink-500 focus:outline-none"
-            />
-          </div>
+  <input
+    type="date"
+    value={lastPeriodDate}
+    onChange={(e) => setLastPeriodDate(e.target.value)}
+    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-pink-500 focus:outline-none"
+  />
+</div>
 
-          <div>
-            <label className="block mb-2 font-medium text-gray-700">
-              Cycle Length (Days)
-            </label>
+<div>
+  <label className="block mb-2 font-medium text-gray-700">
+    Cycle Length (Days)
+  </label>
 
-            <input
-              type="number"
-              placeholder="Example: 28"
-              value={cycleLength}
-              onChange={(e) => setCycleLength(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-pink-500 focus:outline-none"
-            />
-          </div>
+  <input
+    type="number"
+    placeholder="Example: 28"
+    value={cycleLength}
+    onChange={(e) => setCycleLength(e.target.value)}
+    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-pink-500 focus:outline-none"
+  />
+</div>
 
           <button
             onClick={handleSubmit}
