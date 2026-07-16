@@ -167,60 +167,65 @@ export default function HealthTest() {
 
         <div className="mt-8">
 
-          <h2 className="text-2xl font-bold text-purple-700 mb-5">
-            Symptoms
-          </h2>
+  <h2 className="text-2xl font-bold text-purple-700 mb-5">
+    Symptoms
+  </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div className="space-y-4">
 
-            <label className="flex items-center gap-3 p-3 border rounded-xl hover:bg-pink-50 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={irregularPeriods}
-                onChange={(e) =>
-                  setIrregularPeriods(e.target.checked)
-                }
-              />
-              <span>Irregular Periods</span>
-            </label>
+    <label className="flex items-center gap-3 text-gray-700 text-lg cursor-pointer">
+      <input
+        type="checkbox"
+        checked={irregularPeriods}
+        onChange={(e) => setIrregularPeriods(e.target.checked)}
+        className="w-5 h-5 accent-pink-600"
+      />
+      Irregular Periods
+    </label>
 
-            <label className="flex items-center gap-3 p-3 border rounded-xl hover:bg-pink-50 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={acne}
-                onChange={(e) => setAcne(e.target.checked)}
-              />
-              <span>Acne</span>
-            </label>
+    <label className="flex items-center gap-3 text-gray-700 text-lg cursor-pointer">
+      <input
+        type="checkbox"
+        checked={acne}
+        onChange={(e) => setAcne(e.target.checked)}
+        className="w-5 h-5 accent-pink-600"
+      />
+      Acne
+    </label>
 
-            <label className="flex items-center gap-3 p-3 border rounded-xl hover:bg-pink-50 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={hairLoss}
-                onChange={(e) => setHairLoss(e.target.checked)}
-              />
-              <span>Hair Loss</span>
-            </label>
+    <label className="flex items-center gap-3 text-gray-700 text-lg cursor-pointer">
+      <input
+        type="checkbox"
+        checked={hairLoss}
+        onChange={(e) => setHairLoss(e.target.checked)}
+        className="w-5 h-5 accent-pink-600"
+      />
+      Hair Loss
+    </label>
 
-            <label className="flex items-center gap-3 p-3 border rounded-xl hover:bg-pink-50 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={weightGain}
-                onChange={(e) => setWeightGain(e.target.checked)}
-              />
-              <span>Weight Gain</span>
-            </label>
+    <label className="flex items-center gap-3 text-gray-700 text-lg cursor-pointer">
+      <input
+        type="checkbox"
+        checked={weightGain}
+        onChange={(e) => setWeightGain(e.target.checked)}
+        className="w-5 h-5 accent-pink-600"
+      />
+      Weight Gain
+    </label>
 
-            <label className="flex items-center gap-3 p-3 border rounded-xl hover:bg-pink-50 cursor-pointer md:col-span-2">
-              <input
-                type="checkbox"
-                checked={fatigue}
-                onChange={(e) => setFatigue(e.target.checked)}
-              />
-              <span>Fatigue</span>
-            </label>
+    <label className="flex items-center gap-3 text-gray-700 text-lg cursor-pointer">
+      <input
+        type="checkbox"
+        checked={fatigue}
+        onChange={(e) => setFatigue(e.target.checked)}
+        className="w-5 h-5 accent-pink-600"
+      />
+      Fatigue
+    </label>
 
-          </div>
+  </div>
+
+</div>
                   <button
           onClick={handleAnalyze}
           disabled={loading}
