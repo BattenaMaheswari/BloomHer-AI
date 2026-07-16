@@ -95,7 +95,7 @@ export default function PeriodPage() {
     placeholder="Enter your name"
     value={userName}
     onChange={(e) => setUserName(e.target.value)}
-    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-pink-500 focus:outline-none"
+    className="w-full p-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-pink-500 focus:outline-none"
   />
 </div>
 
@@ -108,7 +108,7 @@ export default function PeriodPage() {
     type="date"
     value={lastPeriodDate}
     onChange={(e) => setLastPeriodDate(e.target.value)}
-    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-pink-500 focus:outline-none"
+    className="w-full p-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-pink-500 focus:outline-none"
   />
 </div>
 
@@ -122,7 +122,7 @@ export default function PeriodPage() {
     placeholder="Example: 28"
     value={cycleLength}
     onChange={(e) => setCycleLength(e.target.value)}
-    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-pink-500 focus:outline-none"
+    className="w-full p-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-pink-500 focus:outline-none"
   />
 </div>
 
