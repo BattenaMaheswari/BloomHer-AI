@@ -124,39 +124,22 @@ export default function PeriodPage() {
         )}
 
         {result && (
-  <div className="mt-8 rounded-2xl border border-pink-200 p-6">
+          <div className="mt-6 bg-pink-100 p-5 rounded-xl">
 
-    <h2 className="text-2xl font-bold text-pink-700 text-center mb-6">
-      Period Saved Successfully
-    </h2>
+            <h2 className="text-xl font-bold text-pink-700">
+              Saved Successfully
+            </h2>
 
-    <div className="space-y-4">
+            <p className="mt-3">
+              Start Date: <strong>{result.start_date}</strong>
+            </p>
 
-      <div className="flex justify-between border-b pb-3">
-        <span className="font-medium text-gray-700">
-          Start Date
-        </span>
+            <p>
+              End Date: <strong>{result.end_date}</strong>
+            </p>
 
-        <span className="font-semibold text-pink-600">
-          {result.start_date}
-        </span>
-      </div>
-
-      <div className="flex justify-between">
-        <span className="font-medium text-gray-700">
-          End Date
-        </span>
-
-        <span className="font-semibold text-pink-600">
-          {result.end_date}
-        </span>
-      </div>
-
-    </div>
-
-  </div>
-)}
-        
+          </div>
+        )}
 
       </div>
 
