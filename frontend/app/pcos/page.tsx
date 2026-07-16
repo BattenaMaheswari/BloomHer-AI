@@ -187,44 +187,63 @@ export default function PCOSPage() {
 
         {result && (
 
-          <div className="mt-6 rounded-2xl border border-purple-200 p-5">
+  <div className="mt-8 rounded-2xl border border-purple-200 p-6">
 
-            <h2 className="text-xl font-bold text-purple-700">
-              Prediction Result
-            </h2>
+    <h2 className="text-2xl font-bold text-purple-700 text-center mb-6">
+      Prediction Results
+    </h2>
 
-            <p className="mt-3">
-              <strong>Risk:</strong> {result.risk || result.prediction}
-            </p>
+    <div className="space-y-4">
 
-            {result.confidence !== undefined && (
+      <div className="flex justify-between items-center border-b pb-3">
+        <span className="font-medium text-gray-700">
+          PCOS Risk
+        </span>
 
-              <p>
-                <strong>Confidence:</strong> {result.confidence}%
-              </p>
-
-            )}
-
-            {result.message && (
-
-              <p className="mt-3">
-                {result.message}
-              </p>
-
-            )}
-
-            <button
-              onClick={resetForm}
-              className="mt-5 w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition duration-300"
-            >
-              Predict Another User
-            </button>
-
-          </div>
-
-        )}
-
+        <span className="font-bold text-pink-600 text-lg">
+          {result.risk || result.prediction}
+        </span>
       </div>
+
+      {result.confidence !== undefined && (
+
+        <div className="flex justify-between items-center border-b pb-3">
+          <span className="font-medium text-gray-700">
+            Confidence
+          </span>
+
+          <span className="font-bold text-purple-600 text-lg">
+            {result.confidence}%
+          </span>
+        </div>
+
+      )}
+
+      {result.message && (
+
+        <div className="pt-2">
+          <h3 className="font-semibold text-purple-700 mb-2">
+            Recommendation
+          </h3>
+
+          <p className="text-gray-700 leading-7">
+            {result.message}
+          </p>
+        </div>
+
+      )}
+
+    </div>
+
+    <button
+      onClick={resetForm}
+      className="mt-8 w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition duration-300"
+    >
+      Predict Another User
+    </button>
+
+  </div>
+
 
     </main>
   );
